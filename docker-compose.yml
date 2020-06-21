@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    environment:
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    ports:
+      - 5601:5601
+    volumes:
+      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - elasticsearch
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.8.0
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./config/filebeat_fields.yml:/usr/share/filebeat/filebeat_fields.yml:ro
+      - ./log:/log
+    depends_on:
+      - elasticsearch
+      - kibana
+    restart: always

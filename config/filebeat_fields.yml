@@ -1,0 +1,8 @@
+- name: name
+  type: text
+- name: timestamp
+  type: date
+- name: disk_path
+  type: text
+- name: temperature_celsius
+  type: long

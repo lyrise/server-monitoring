@@ -1,0 +1,17 @@
+setup:
+  ilm.rollover_alias: "log"
+  kibana.host: "http://kibana:5601"
+  dashboards.index: "log-*"
+  template:
+    name: "log"
+    pattern: "log-*"
+    overwrite: true
+    fields: "/usr/share/filebeat/filebeat_fields.yml"
+filebeat.inputs:
+  - type: log
+    json.keys_under_root: true
+    paths:
+      - "/log/*.log"
+output.elasticsearch:
+  index: "log-%{[agent.version]}-%{+yyyy.MM.dd}"
+  hosts: ["http://elasticsearch:9200"]
