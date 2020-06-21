@@ -1,8 +1,13 @@
-- name: name
-  type: text
-- name: timestamp
-  type: date
-- name: disk_path
-  type: text
-- name: temperature_celsius
-  type: long
+- key: ecs
+  title: ECS
+  fields:
+    - name: "timestamp"
+      type: date
+      required: true
+      example: "2016-05-23T08:05:34.853Z"
+    - name: name
+      type: keyword
+    - name: disk_path
+      type: keyword
+    - name: temperature_celsius
+      type: long
