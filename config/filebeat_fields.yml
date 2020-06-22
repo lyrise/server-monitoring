@@ -1,11 +1,12 @@
-- key: ecs
-  title: ECS
+- key: disk_smart
+  title: "disk smart"
   fields:
-    - name: "timestamp"
+    - name: timestamp
       type: date
       required: true
-      example: "2016-05-23T08:05:34.853Z"
-    - name: name
+    - name: sender
+      type: keyword
+    - name: type
       type: keyword
     - name: disk_path
       type: keyword
